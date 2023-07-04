@@ -1,0 +1,15 @@
+{
+  "name": "cowsay-example",
+  "version": "1.0.0",
+  "description": "What does the cow say?",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "cowsay Hellooooo World"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cowsay": "^1.5.0"
+  }
+}
