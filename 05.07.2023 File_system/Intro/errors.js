@@ -3,13 +3,16 @@ function example() {
     throw new Error("It's true");
   }
 
-  return "This is a test";
+  return "This is a Test";
 }
 
+let data;
 try {
-  const data = example();
+  data = example();
 } catch (e) {
   console.log("Error from catch(): ", e);
 }
 
-// console.log({ data });
+// Data ist undefined denn example wirft einen
+// Error
+console.log({ data });

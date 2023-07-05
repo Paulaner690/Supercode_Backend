@@ -57,3 +57,9 @@ const prom2 = async (filePath) => {
 };
 
 prom2().catch((e) => console.error("Here: ", e));
+
+try {
+  await fetch("http://google.commmm");
+} catch (error) {
+  console.error("Catch fetch: ", error);
+}
