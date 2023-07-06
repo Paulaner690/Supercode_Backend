@@ -1,3 +1,5 @@
+// ! https://github.com/VZ-FS-23-02/LiveCode/tree/main/node/03.FileSystem/01.Intro
+
 import fs from "node:fs";
 
 // # synchron blockiert
