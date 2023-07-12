@@ -1,4 +1,5 @@
 // # 4
+import e from "express";
 import fsPromise from "fs/promises";
 
 // Absoluter Pfad zur Json-Datei
@@ -18,6 +19,7 @@ export const getPostById = async (id) => {
 
   for (let i = 0; i < posts.length; i++) {
     const post = posts[i];
+    console.log({ id, postId: post.id, vergleich: id === post.id });
     if (id === post.id) {
       resultPost = post;
       continue;

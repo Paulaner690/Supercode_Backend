@@ -1,7 +1,7 @@
 import express from "express";
 import axios from "axios";
 
-import { getPosts } from "./postService.js";
+import { getPostById, getPosts } from "./postService.js";
 
 const PORT = 3001;
 const app = express();
@@ -12,7 +12,6 @@ app.get("/status", (req, res) => {
 });
 
 // # 2 axios fetch
-// # 4
 /*
  * Beispiel mit fetch, wir müssen den body konvertieren.
  * Mit axios passiert das automatisch und vereinfacht den
@@ -27,6 +26,7 @@ app.get("/status", (req, res) => {
 //   });
 // res.send("OK");
 
+// # 4
 getPosts().then((posts) => {
   console.log(posts);
   res.json(posts);
@@ -50,17 +50,21 @@ app.get("/post-async", async (req, res) => {
 // });
 
 // # 3 id route params
+// app.get("/post/:id", async (req, res) => {
+//   const id = Number(req.params.id);
+//   const { data } = await axios.get(
+//     `https://jsonplaceholder.typicode.com/posts/${id}`
+//   );
+//   res.send(data);
+// });
+
+// # 4
 app.get("/post/:id", async (req, res) => {
   const id = Number(req.params.id);
-  const { data } = await axios.get(
-    `https://jsonplaceholder.typicode.com/posts/${id}`
-  );
+  const data = await getPostById(id);
+  console.log(data);
   res.send(data);
 });
-
-// # 5
-
-// # 6
 
 app.listen(PORT, () => {
   console.log("Server is running on port:", PORT);
