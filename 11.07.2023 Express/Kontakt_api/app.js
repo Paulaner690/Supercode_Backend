@@ -34,7 +34,11 @@ app.get("/contacts/:id", (req, res) => {
 
 // Kontakt erstellen
 app.post("/contacts", (req, res) => {
-  const contact = { name: "Paula", age: 22 };
+  const contact = {
+    name: "Paula",
+    number: "0123456789",
+    email: "paula@paulaner.com",
+  };
   getId(contact);
   contacts.push(contact);
   res.json(contacts);
@@ -43,11 +47,13 @@ app.post("/contacts", (req, res) => {
 // Kontakt anhand einer Id aktualisieren
 app.put("/contacts/:id", (req, res) => {
   const contactId = req.params.id;
+  // # find gibt uns das erste Element zurück was gefunden wird und hört dann auf zu suchen!
   const selectedContact = contacts.find(
     (contact) => contact.id.toString() === contactId
   );
   selectedContact.name = "Udo";
-  selectedContact.age = 47;
+  selectedContact.number = 4723234344;
+  selectedContact.email = "udo@udomail.com";
   if (!selectedContact) {
     return res.status(404).json({ error: "Kontakt nicht gefunden" });
   }
@@ -65,16 +71,9 @@ app.delete("/contacts/:id", (req, res) => {
   res.json(contacts);
 });
 
-// # 3
-app.get("/", (req, res) => {
-  res.sendFile("index.html");
-});
-
-app.post("/submit", (req, res) => {
-  let contactInfo = req.body.Name + " " + req.body.Tel + " " + req.body.Email;
-
-  console.log(contactInfo);
-  res.send(contactInfo + " Submitted Successfully!");
+// FALLBACK
+app.use((req, res, next) => {
+  res.send("Request fehlgeschlagen");
 });
 
 app.listen(PORT, () => console.log("LÄUFT...", PORT));
