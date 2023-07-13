@@ -1,6 +1,6 @@
 // # 4
 import e from "express";
-import fsPromise from "fs/promises";
+import fs from "fs/promises";
 
 // Absoluter Pfad zur Json-Datei
 const PostsFileURL = new URL("./data/posts.json", import.meta.url);
@@ -25,5 +25,6 @@ export const getPostById = async (id) => {
       continue;
     }
   }
+
   return resultPost;
 };
