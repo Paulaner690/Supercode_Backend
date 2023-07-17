@@ -4,7 +4,7 @@ import fsPromises from "node:fs/promises";
 // # 1
 const content = "Ich bin ein Webdeveloper";
 
-// durch Url kann ich die Datei von überall aufrufen (dynamischer Link)
+// ! durch Url kann ich die Datei von überall aufrufen (dynamischer Link)
 const filePath = new URL("./blog1.txt", import.meta.url);
 // await= asynchron, fs.writeFile hat best. Parameter die wir übergeben
 await fsPromises.writeFile(

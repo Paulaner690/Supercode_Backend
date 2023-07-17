@@ -81,6 +81,8 @@ app.get("/post/:requestID", async (req, res) => {
   res.send(data);
 });
 
+// Der app wird ein port zugewiesen.  listen: wir sind ready, lausche auf  den port
+// wenn erfolgreich gestartet: console.log mit unserer message
 app.listen(PORT, () => {
   console.log("Server is running on port:", PORT);
 });
