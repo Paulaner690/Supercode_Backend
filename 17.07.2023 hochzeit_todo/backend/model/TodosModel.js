@@ -12,7 +12,7 @@ const filePath = "./data/todos.json";
 // Feststellen, dass in unserem Zielordner ein leeres Array ist!!! Benötigit für Json! LET verwenden, da es überschreiben werden kann!!
 export let todos = [];
 
-// hier werden die Daten aus der Datenbank gelesen
+// ! hier werden die Daten aus der Datenbank gelesen mit fs.readFile
 const _setUp = async () => {
   try {
     const buffer = await fs.readFile(filePath);
@@ -25,7 +25,7 @@ const _setUp = async () => {
 _setUp();
 // Wird nur hier im model ausgeführt
 
-// hier werden die Daten in der Datenbank gespeichert
+//  ! hier werden die Daten als String in der Datenbank gespeichert, also in der todos.json mit fs.writeFile
 const _saveTodo = async () => {
   try {
     // 1. Parameter Pfad, 2. umwandlung in String
@@ -35,6 +35,7 @@ const _saveTodo = async () => {
   }
 };
 
+// ! neuer Kontakt
 export const addTodo = async (todo) => {
   // kopie von todo wird erstellt + id
   const newTodo = { ...todo, id: uuidv4() };
@@ -44,23 +45,31 @@ export const addTodo = async (todo) => {
   return newTodo;
 };
 
-// hier wird die ID gesucht
+//! hier wird die ID gesucht
 const _findEntryIndex = (id) => {
   return todos.findIndex((todo) => todo.id === id);
 };
 
+// ! Kontakt aktualisieren
 export const updateTodo = async (id, todo) => {
   // Passende Id finden durch vorherige Funktion
   const todoIndex = _findEntryIndex(id);
+  // Diese Bedingung prüft, ob die todoIndex gültig ist und nicht gleich -1 ist. Ein todoIndex von -1 würde bedeuten, dass der angegebene ToDo mit der gegebenen id nicht gefunden wurde und somit nicht aktualisiert werden kann.
   if (todoIndex !== -1) {
+    // Diese Zeile erstellt ein neues Objekt updatedTodo, das die Eigenschaften des vorhandenen Todos an der Position todoIndex aus der Datenquelle (z. B. todos) enthält und mit den Eigenschaften des übergebenen todo-Objekts überschrieben wird.
+    // Dadurch können nur bestimmte Eigenschaften des Todos aktualisiert werden, während andere Eigenschaften unverändert bleiben.
     const updatedTodo = { ...todos[todoIndex], ...todo };
+    // Ersetzen des Todos
     todos[todoIndex] = updatedTodo;
+    // .todo dauerhaft speichern
     await _saveTodo();
+    // updatedTodo zurückgeben
     return updatedTodo;
   }
   return null;
 };
 
+// ! Kontakt löschen
 export const deleteTodo = async (id) => {
   const todoIndex = _findEntryIndex(id);
   if (todoIndex !== -1) {

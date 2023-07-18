@@ -1,3 +1,20 @@
+// # In der vite.config.js hinzufügen!!:
+// server: {
+  // ! Port Frontend
+//   port: 3000,
+//   proxy: {
+//     "/api": {
+  // ! Port backend
+//       target: "http://localhost:3001/",
+//       changeOrigin: true,
+//     },
+//   },
+// },
+
+// # npm create vite@latest
+
+// # npm i axios
+
 import './App.css'
 import { useState, useEffect } from 'react';
 import axios from "axios"
@@ -16,7 +33,7 @@ useEffect(() => {
       // hier werden die Daten in die State gespeichert
       setTodos(res.data)
     } catch (error) {
-      console.error("res funktioniert nicht")
+      console.error("res funktioniert nicht", err)
     }
   }
   fetchTodos()
