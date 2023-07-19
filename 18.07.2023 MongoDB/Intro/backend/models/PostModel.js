@@ -11,9 +11,21 @@ import mongoose from "mongoose";
 // * Nur diese Keys werden am Ende abgespeichert
 const postSchema = new mongoose.Schema({
   // title muss angegeben werden (required!)
-  title: { type: String, required: true },
-  content: String,
-  author: String,
+  title: {
+    type: String,
+    minlength: 5,
+    maxlength: 50,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  author: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    immutable: true,
+  },
   //   views: Number,
 });
 
