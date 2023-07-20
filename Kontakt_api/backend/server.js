@@ -24,7 +24,7 @@ app.use(cors());
 
 // ! ALLE KONTAKTE
 app.get("/api/contacts", async (req, res) => {
-  console.log(contacts);
+  // console.log(contacts);
   const data = await ContactModel.find();
   // res.send(contacts);
   res.send(data);
@@ -41,18 +41,40 @@ app.post("/api/contacts", async (req, res) => {
 });
 
 // ! KONTAKT AKTUALISIEREN
+// app.put("/api/contacts/:id", async (req, res) => {
+// const { id } = req.params;
+// const contact = req.body;
+// const updatedContact = await updateContact(id, contact);
+//   res.send(updatedContact);
+// });
+
 app.put("/api/contacts/:id", async (req, res) => {
-  const { id } = req.params;
-  const contact = req.body;
-  const updatedContact = await updateContact(id, contact);
-  res.send(updatedContact);
+  const edits = req.body;
+  const contactId = req.params.id;
+
+  try {
+    const dbRes = await ContactModel.findByIdAndUpdate(contactId, edits, {
+      new: true,
+    });
+    res.json(dbRes);
+  } catch (err) {
+    console.log(err);
+    res.send("Fehler beim Bearbeiten");
+  }
 });
 
 // ! KONTAKT LÖSCHEN
 app.delete("/api/contacts/:id", async (req, res) => {
-  const { id } = req.params;
-  deleteContact(id);
-  res.send("Kontakt gelöscht");
+  const contactId = req.params.id;
+  console.log(req.params.id);
+  // deleteContact(id);
+  try {
+    const dbRes = await ContactModel.findByIdAndDelete(contactId);
+    res.send("Kontakt gelöscht");
+  } catch (error) {
+    console.log(error);
+    res.send("Da gibts einen Fehler beim Löschen");
+  }
 });
 
 // ! APP LISTENER

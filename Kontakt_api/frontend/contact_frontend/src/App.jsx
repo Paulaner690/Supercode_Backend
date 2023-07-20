@@ -34,39 +34,50 @@ function App() {
     }
   };
 
-  const deleteContact = async (id) => {
+  const deleteContact = async (postId) => {
     try {
-      axios.delete(`/api/contacts/${id}`);
-      setContacts((prevContacts) =>
-        prevContacts.filter((contact) => contact.id !== id)
-      );
+        const { data } = await axios.delete(`/api/contacts/${postId}`)
+        console.log(data)
+        // setRefresh(prev => !prev)
     } catch (err) {
-      console.error(err);
+        console.log(err)
     }
-  };
-  console.log(contacts);
+}
 
-  const updateContactHandle = async (id, firstName, lastName, phone) => {
-    try {
-      await axios.put(`/api/contacts/${id}`, { firstName, lastName, phone });
-      const updateContact = contacts.map((contact) => {
-        if (contact.id === id) {
-          return {
-            ...firstName,
-            lastName,
-            phone,
-          };
-        }
-        return contact;
-      });
-      setContacts(updateContact);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const deleteContact = async (id) => {
+  //   try {
+  //     axios.delete(`/api/contacts/${id}`);
+  //     setContacts((prevContacts) =>
+  //       prevContacts.filter((contact) => contact.id !== id)
+  //     );
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+  // console.log(contacts);
+
+  // const updateContactHandle = async (id, firstName, lastName, phone) => {
+  //   try {
+  //     await axios.put(`/api/contacts/${id}`, { firstName, lastName, phone });
+  //     const updateContact = contacts.map((contact) => {
+  //       if (contact.id === id) {
+  //         return {
+  //           ...firstName,
+  //           lastName,
+  //           phone,
+  //         };
+  //       }
+  //       return contact;
+  //     });
+  //     setContacts(updateContact);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   return (
     <section>
+      {/* <CreatePostForm setRefresh={setRefresh} /> */}
         <h1>Kontakt API</h1>
 
         <article className="contacts-form">
@@ -88,10 +99,10 @@ function App() {
           <h2>Deine Kontakte:</h2>
 
           <article className="contacts-gallery">
-            {contacts?.map((contact, index) => {
+            {contacts?.map(contact=> {
               console.log(contact)
               return (
-                <div key={index} className="contact">
+                <div key={contact._id} className="contact">
                   <h3>Vorname:</h3>
                   <p>{contact.firstName}</p>
                   <h3>Nachname:</h3>
@@ -99,7 +110,7 @@ function App() {
                   <h3>Telefon:</h3>
                   <p>{contact.phone}</p>
                   {/* <button onClick={() => updateContactHandle(contact.id)}>Ändern</button> */}
-                  <button onClick={() => deleteContact(contact.id)}>Löschen</button>
+                  <button onClick={() => deleteContact(contact._id)}>Löschen</button>
                 </div>
               );
             })}
