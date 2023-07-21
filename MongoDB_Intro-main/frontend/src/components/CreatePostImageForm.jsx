@@ -16,7 +16,7 @@ const CreatePostImageForm = ({setRefresh}) => {
         <form onSubmit={handleSubmit}>
             <input type="text" placeholder="Title" name="title" />
             <input type="text" placeholder="Content" name="content" />
-            <input type="text" placeholder="AuthorId" name="author" value="64b792ac3587d051996f50cd" />
+            <input type="text" placeholder="AuthorId" name="author" value="64ba3620632af15fc52e1301" />
             <input type="file" placeholder="Image" name="image" />
             <button type="submit">Submit</button>
         </form>
