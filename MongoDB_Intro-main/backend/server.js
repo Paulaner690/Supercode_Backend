@@ -7,6 +7,10 @@ import multer from "multer"; // Multer ist eine Middelware
 import morgan from "morgan";
 import { v2 as cloudinary } from "cloudinary";
 
+const FE_DIR = new URL("../frontend/dist", import.meta.url);
+const FE_INDEX = new URL("../frontend/dist/index.html", import.meta.url)
+  .pathname;
+
 // console.log(process.env.CLOUDINARY_CLOUDNAME);
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUDNAME,
@@ -20,6 +24,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 app.use(express.json());
 app.use(morgan("dev"));
+// app.use(express.static(FE_DIR));
 
 app.get("/api/posts", async (req, res) => {
   const data = await Post.find();
@@ -103,5 +108,7 @@ app.get("/api/getPostsByAuthor/:authorId", async (req, res) => {
     res.send("there was an error");
   }
 });
+
+app.get("*");
 
 app.listen(PORT, () => console.log("Der Server läuft", PORT));
