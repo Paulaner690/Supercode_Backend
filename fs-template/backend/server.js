@@ -1,8 +1,15 @@
 import express from "express";
 import dotenv from "dotenv";
 import data from "./data.json" assert { type: "json" };
+// !
+import mongoose from "mongoose";
+import { userRouter } from "./user/routes.js";
 
 dotenv.config({ path: new URL("../.env", import.meta.url).pathname });
+
+// !
+console.log(process.env.DB);
+await mongoose.connect("mongodb://localhost:27017/template");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -12,6 +19,8 @@ const ReactAppIndex = new URL("../front-end/dist/index.html", import.meta.url);
 
 app.use(express.json());
 app.use(express.static(ReactAppDistPath.pathname));
+// !
+app.use("/api/user", userRouter);
 /*
  * express.static matched auf jede Datei im angegebenen Ordner
  * und erstellt uns einen request handler for FREE

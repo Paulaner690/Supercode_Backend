@@ -11,7 +11,8 @@
     "install:fe": "npm i --prefix frontend",
     "install:be": "npm i --prefix backend",
     "install": "concurrently \"npm:install:*\"",
-    "start": "npm run build --prefix frontend && npm start --prefix backend"
+    "start": "npm run build --prefix frontend && npm start --prefix backend",
+    "postinstall": "npm i --prefix backend && npm i --prefix frontend"
   },
   "keywords": [],
   "author": "",
