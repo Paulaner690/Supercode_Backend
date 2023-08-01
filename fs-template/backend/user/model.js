@@ -9,7 +9,7 @@ export const userSchema = new Schema({
 });
 
 userSchema.methods.setPassword = function (password) {
-  // Salt
+  // Salt - für jeden User eigenen erstellen
   this.salt = crypto.randomBytes(64).toString("hex");
   // password mit salt hashen
   this.hash = crypto
@@ -22,6 +22,8 @@ userSchema.methods.verifyPassword = function (password) {
     .pbkdf2Sync(password, this.salt, 1000, 64, "sha512")
     .toString("hex");
   return this.hash === hash;
+  //hashes werden verglichen
+  //bei nicht Übereinstimmung kommt false
 };
 
 export const User = model("User", userSchema);

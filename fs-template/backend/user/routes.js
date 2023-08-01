@@ -1,7 +1,12 @@
 import { Router } from "express";
 import User from "./model.js";
+import { authenticateToken, generateAccessToken } from "./authToken.js";
 
 export const userRouter = Router();
+
+const hoursInMillisec = (hours) => {
+  return 1000 * 60 * 60 * hours;
+};
 
 userRouter.get("/", async (req, res) => {
   const users = await User.find();
@@ -23,6 +28,9 @@ userRouter.post("/login", async (req, res) => {
   //   Dieses Password würde den gleichen hash produzieren (wie in der DB)
   const passwordIsValid = user.verifyPassword(password);
   if (passwordIsValid) {
+    const token = generateAccessToken({ email });
+    console.log(token);
+    res.cookie("auth", token, { httpOnly: true, maxAge: hoursInMillisec });
     res.send({ message: "Success", data: user });
   } else {
     res.status(404).send({
@@ -30,4 +38,9 @@ userRouter.post("/login", async (req, res) => {
       error: { message: "Password and Email combination is wrong" },
     });
   }
+});
+
+userRouter.get("/secure", authenticateToken, async (req, res) => {
+  console.log(req.userEmail);
+  res.send("SUCCESS");
 });
