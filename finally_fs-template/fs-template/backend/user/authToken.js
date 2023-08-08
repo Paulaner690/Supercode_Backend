@@ -1,15 +1,14 @@
 import jwt from "jsonwebtoken";
 
 // userEmailObj = {email: ""}
-export function generateAccessToken(userEmailObj, persist) {
+export function generateAccessToken(userEmailObj, persist = false) {
   return jwt.sign(userEmailObj, process.env.TOKEN_SECRET, {
     expiresIn: persist ? "7d" : "4h",
   });
 }
 
-// ! MIDDLEWARE
 export function authenticateToken(req, res, next) {
-  let token;
+  let token = null;
   if (req?.cookies?.auth) {
     token = req.cookies.auth;
   }
@@ -19,9 +18,7 @@ export function authenticateToken(req, res, next) {
     token = authHeader && authHeader.split(" ")[1];
   }
 
-  if (token === null) {
-    return res.sendStatus(401);
-  }
+  if (!token) return res.sendStatus(401);
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     console.log(err, user);
